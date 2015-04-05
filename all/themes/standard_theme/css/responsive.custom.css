@@ -1,0 +1,138 @@
+/*
+ * responsive.custom.css is for custom media queries that are not set via the
+ * theme settings, such as cascading media queries.
+ *
+ * By default all the other responsive stylesheets used in Adaptivetheme use a
+ * "stacking method", however cascading media queries use a waterfall method so
+ * you can leverage the cascade and inheritance for all browsers that support
+ * media queries, regardless of screen size.
+ *
+ * @SEE http://zomigi.com/blog/essential-considerations-for-crafting-quality-media-queries/#mq-overlap-stack
+ *
+ * NOTE: this file loads by default, to disable got to your theme settings and
+ * look under the "CSS" settings tab.
+ */
+
+/*
+ * Medium range size overlapped
+ */
+@media only screen and (max-width: 30em) { /*  < 480px */
+    /*
+     *  Select menu styling (small screens)
+     */
+    body #menu-bar > nav.menu-wrapper {
+        position: relative;
+    }
+    body #menu-bar > nav.menu-wrapper:before {
+        /* hide old arrow with new one */
+        position: absolute;
+        content: '\f078';
+        font-family: "fontawesome";
+        display:block;
+        left: 9.5em;
+        top: 0;
+        width: 2em;
+        height: 2em;
+        text-align: center;
+        padding-top: 0.2em;
+        background: rgba(248, 227, 101, 1.0);
+        pointer-events:none;
+    }
+    #superfish-1-select {
+        display: block;
+        width: 12em;
+        margin: 0;
+        padding: 0.5em 0.8em;
+        font-size: 1em;
+        line-height: 1.2;
+        color: #606060;
+        outline: none 0;
+        border: none 0;
+        background: rgba(248, 227, 101, 1.0) none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+    #superfish-1-select option {
+        outline: none 0;
+        margin: 1em 0.5em;
+        line-height: 2;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+
+    /* front page corrections */
+    #frontpage > .panel-row > .region-two-brick-left-above > .region-inner,
+    #frontpage > .panel-row > .region-two-brick-right-above > .region-inner,
+    #frontpage > .panel-row > .region-two-brick-left-below > .region-inner,
+    #frontpage > .panel-row > .region-two-brick-right-below > .region-inner {
+        margin: 2em 0 0;
+    }
+    /* show hosts users and footer blocks one after the other */
+    #footer .block-region-footer {
+        width: 100%;
+    }
+    #footer .block-region-footer.last > .block-inner {
+        padding: 1em 0 0 1em;
+        border-top: thin solid #606060;
+    }
+
+    /* Kontakt, Ereignis and Referenz-Objekt margin adaptation when columns get stacked */
+    .page-node .node-kontakt.node-full > .at-panel > .region-two-50-first > .region-inner,
+    .page-node .node-kontakt.node-full > .at-panel > .region-two-50-second > .region-inner,
+    .page-node .node-ereignis.node-full > .at-panel > .region-two-33-66-first > .region-inner,
+    .page-node .node-ereignis.node-full > .at-panel > .region-two-33-66-second > .region-inner,
+    .page-node .node-referenz-objekt.node-full > .at-panel > .region-two-33-66-first > .region-inner,
+    .page-node .node-referenz-objekt.node-full > .at-panel > .region-two-33-66-second > .region-inner{
+        margin: 0;
+    }
+
+    /* Referenzlisten margin adaptation */
+    #referenz-pane-kollektor > .panel-row > .region-two-brick-left-above > .region-inner,
+    #referenz-pane-kollektor > .panel-row > .region-two-brick-left-below > .region-inner,
+    #referenz-pane-kollektor > .panel-row > .region-two-brick-right-above > .region-inner,
+    #referenz-pane-kollektor > .panel-row > .region-two-brick-right-below > .region-inner,
+    #referenz-pane-waermepumpe > .region-two-50-first > .region-inner,
+    #referenz-pane-waermepumpe > .region-two-50-second > .region-inner {
+        margin: 0;
+    }
+
+    /* Node Produkt: Resize accordion headers to full width */
+    .node-produkt.node-full section.field-type-ds > .field-label {
+        position: static;
+        width: 98%;
+    }
+    .ui-accordion .ui-accordion-header.ui-state-active a,
+    .ui-accordion .ui-accordion-header.ui-state-default a {
+        display: block;
+        margin-left: 0;    /* moves title to the right half. */
+
+    }
+    /* Node Produkt: Resize reference container to full width */
+    .node-produkt .field-name-block-field-referenzen .field-item .view-view-list-referenz-anlagen .view-content {
+        margin-left: 0;
+        border: none;
+    }
+
+}
+
+@media only screen and (max-width: 40em) { /* < 640px */
+    /* adapt menu font size */
+    #menu-bar #superfish-1 li a,
+    #menu-bar #superfish-1 li a:link,
+    #menu-bar #superfish-1 li a:visited {
+        font-size: 1em;
+    }
+
+    /* Node Produkt: teaser links stacked */
+    #frontpage .node-produkt.node-teaser > .at-panel.two-50 > .region {
+        width: 100%;
+    }
+}
+@media only screen and (min-width: 30.0625em) and (max-width: 40em) { /* 480px - 640px*/
+}
+
+@media only screen and (min-width: 30.0625em) and (max-width: 48em) { /* 480px - 768px */
+}
+

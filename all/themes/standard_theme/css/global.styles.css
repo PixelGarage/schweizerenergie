@@ -1,0 +1,1871 @@
+/*
+ * @file
+ * global.styles
+ *
+ * Styles you add here will load for all device sizes, they are "global", as
+ * opposed to "responsive" styles, which only load for a given breakpoint (media
+ * query) that you set in theme settings. See the README for more details.
+ *
+ *
+ * How to use this file:
+ * --------------------
+ *
+ * There are many empty selectors and some basic styles to act as a guide.
+ * Nothing is set in stone and you can change anything - even delete all of it
+ * and start with your own clean slate.
+ *
+ * See global.base also which includes normalize.css and some additional
+ * helper classes and base styles.
+ *
+ *
+ *
+ *  Style precedence in CSS (Specificity, Inheritance, Cascade)
+ *  -----------------------------------------------------------
+ *
+ *  Specificity:    a) Inline Style
+ *  (a,b,c,d)       b) Id
+ *                  c) Class, Pseudo-class, attribute
+ *                  d) Element, pseuo-element
+ *
+ *                          Example: div#sidebar p.bio -> 2 elements, 1 class, 1 id –> (0,1,1,2)
+ *
+ *
+ *  Inheritance:    Elements inherit styles from their parent container.
+                    "inherit" let you inherit margin, padding etc. from parent container.
+ *
+ *
+ *  Cascade:        - Site-Author (these files) OVER Site-User(Style settings in browser) OVER Browser Defaults
+ *                  - !importance has more weight than normal declarations
+ *                  - Equal specificity: last wins
+ *
+ *                  TIP: Normalizing (see above) takes browser defaults and cross browser issues out of equation!!!
+ */
+
+/* =============================================================================
+ *   Colors used for web site
+ * =============================================================================
+    black:      #606060, rgba(96,96,96,1.0)
+    yellow:     #f8e365, rgba(248,227,101,1.0)
+    red:        #c83e3b, rgba(200,62,59,1.0)
+    blue:       #5160a8, rgba(81,96,168,1.0)
+    beige:      #f1eee7, rgba(241,238,231,1.0)
+    background: #ffffff
+
+  =============================================================================*/
+
+
+/* =============================================================================
+ *   Fonts
+ * ========================================================================== */
+
+/* =============================================================================
+ *   General reset
+ * ========================================================================== */
+#main-content,
+.block-inner,
+.pane-inner,
+.menu-wrapper,
+.branding-elements,
+.breadcrumb-wrapper,
+.attribution,
+.at-panel .rounded-corner,
+.block-panels-mini > .block-title,
+div.messages {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/*
+ * Blocks
+ */
+.block,
+.block > .block-inner,
+.block .block-title {
+    margin: 0;
+}
+ /*
+  * AT regions (normal and nested regions)
+  */
+.at-panel > .region > .region-inner,
+.at-panel .at-panel > .region > .region-inner {
+    margin: 0;
+}
+
+/*
+ * Fields
+ */
+
+/* =============================================================================
+ *   Base
+ * ========================================================================== */
+
+/*
+ * To preserve theme settings never apply font properties to the HTML element.
+ * This is critically important if you are using the Responsive JavaScript
+ * feature as this relies on being able to set a pseudo font family on the HTML
+ * element. If you need to set default font properties of any kind use the BODY
+ * element as these can be overridden using font theme settings.
+ */
+
+html {
+    background: #fff;
+}
+
+
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 100%;  /* corresponds to 16px */
+    color: #606060;
+}
+
+
+/* =============================================================================
+ *   HTML Elements
+ * ========================================================================== */
+/* and if we have headings with defined styles we'd also add */
+h1, h2, h3, h4, h5, h6 {
+    margin: 0.5em 0;
+    line-height: 1.2;   /* unitless line-height: element multiply this value with its computed font-sizes */
+}
+
+p {
+    font-size: 1em;
+    line-height: 1.1;     /* unitless line-height: element multiply this value with its computed font-sizes */
+}
+
+
+pre,
+code,
+tt,
+samp,
+kbd,
+var {
+    font-family: Consolas, Monaco, 'Courier New', Courier, monospace, sans-serif;
+}
+
+/* =============================================================================
+ *   Wrappers
+ * ========================================================================== */
+#header,
+#menu-bar,
+#breadcrumb,
+#messages,
+#columns,
+#comments,
+#footer,
+.region-leaderboard,
+.region-tertiary-content {
+    width: 100%;
+    margin: 0;
+}
+
+/*
+ * Top and bottom menus wrappers
+ */
+.region-leaderboard > .region-inner,
+.region-tertiary-content > .region-inner {
+    margin: 0 0.625em;
+}
+
+/*
+ * Header wrapper
+ */
+#header > .branding-elements,
+#header > .region-header > .region-inner {
+    margin: 0.5em 0.625em;
+}
+/*
+ * Menu bar wrapper
+ */
+#menu-bar > nav.menu-bar-wrapper {
+    position: static;
+    margin: 0 0.625em;
+}
+/*
+ * Breadcrumb wrapper
+ */
+#breadcrumb > nav.breadcrumb-wrapper {
+    margin: 0 0.625em;
+}
+/*
+ *  message panel
+ */
+#messages > div.messages {
+    margin: 0.625em;
+}
+/*
+ * Main content wrapper
+ */
+#columns > .content-column > .content-inner {
+    margin: 0 0.625em;
+}
+/*
+ * Footer wrapper
+ */
+#footer,
+.region-tertiary-content {
+    overflow: hidden; /* prevents margin collapsing */
+}
+#footer > .region-footer > .region-inner {
+    margin: 2em 0.625em 0;
+    background-color: rgba(248,227,101,1.0);
+}
+
+/* Blocks in footer */
+#footer .block-region-footer {
+    display: inline-block;
+    float: left;
+    width: 50%;
+}
+#footer .block-region-footer > .block-inner {
+    margin: 1em;
+}
+
+/* sub footer */
+.region-tertiary-content > .region-inner {
+    border-top: 1px solid #606060;
+    background-color: rgba(248,227,101,1.0);
+}
+
+
+/* =============================================================================
+ *   Top menu (login, meta), bottom menu (copyright, legal)
+ * ========================================================================== */
+/*
+ *   meta menu, login menu
+ */
+
+#block-menu-menu-metamenu,
+#block-system-user-menu {
+    display:inline-block;
+    float: right;
+}
+#block-menu-menu-metamenu .block-inner,
+#block-system-user-menu .block-inner {
+    margin: 0;
+}
+
+.region-leaderboard {
+    font-size: 1.0em;
+}
+.region-leaderboard ul {
+    list-style-type:none;
+    margin:0;
+    padding:0;
+}
+.region-tertiary-content ul {
+    /* center list elements in sub footer*/
+    display: block;
+    list-style-type:none;
+    margin: 0 auto;
+    padding:0;
+    width: 80%;
+    text-align: center;
+}
+
+.region-leaderboard ul li,
+.region-tertiary-content ul li {
+    display:inline;
+    padding: 0 0.625em;
+}
+.region-leaderboard ul li {
+    border-left: 1px solid #606060;
+}
+#block-menu-menu-metamenu ul li:first-child {
+    border: none;
+}
+
+
+.region-leaderboard ul li a,
+.region-leaderboard ul li a:visited,
+.region-tertiary-content ul li a,
+.region-tertiary-content ul li a:visited {
+    color: #606060;
+}
+
+.region-tertiary-content ul li a:hover,
+.region-tertiary-content ul li a:focus,
+.region-leaderboard ul li a:hover,
+.region-leaderboard ul li a:focus {
+    color: #222;
+}
+
+
+/* =============================================================================
+ *   Branding
+ * ========================================================================== */
+/*
+ * Logo
+ */
+#logo {
+    display: inline-block;
+    float: left;
+    padding: 0;
+    margin: 0;
+}
+#logo img {
+    vertical-align: middle;
+}
+
+/*
+ * Site name and slogan (hgroup)
+ */
+#name-and-slogan {
+    display: inline-block;
+    font: inherit;
+    font-size: 1.5em;
+    font-weight: bold;
+    line-height: 1.2;
+    color: #606060;
+    white-space: nowrap;
+}
+
+#site-name {
+    position: relative;
+    margin: 0;
+    font: inherit;
+}
+#site-name a,
+#site-name a:link,
+#site-name a:visited {
+    text-decoration: none;
+    color: #606060;
+}
+#site-name a:hover,
+#site-name a:focus {
+    text-decoration: none;
+    color: #fff;
+}
+
+#site-slogan {
+    position: relative;
+    margin: 0;
+    font: inherit;
+}
+
+
+/* =============================================================================
+ *   Superfish menu
+ * ========================================================================== */
+/*
+ * Top menu items
+ */
+#menu-bar #superfish-1 {
+    width: 100%;
+    white-space: nowrap;
+}
+#menu-bar #superfish-1 > li {
+    margin: 0;
+    width: 25%;
+}
+#menu-bar #superfish-1 > li a.sf-depth-1 {
+    margin: 0 0.25em;
+}
+#menu-bar #superfish-1 > li.first a.sf-depth-1 {
+    margin-left: 0;
+}
+#menu-bar #superfish-1 > li.last a.sf-depth-1 {
+    margin-right: 0;
+}
+
+#menu-bar #superfish-1 a > .sf-sub-indicator {
+    display: none;  /* no drop-down arrow */
+}
+#superfish-1 .sf-shadow {
+    margin: 0 0.25em;
+}
+
+/*
+ * Submenu items
+ */
+#superfish-1 li a,
+#superfish-1 li a:link,
+#superfish-1 li a:visited {
+    margin: 0;
+    height: 2.5em;
+    line-height: 2.5;
+    font-size: 1.25em;
+    text-align: center;
+    text-decoration: none;
+    color: #606060;
+    background-color: rgba(248,227,101,1.0);
+}
+#superfish-1 li a:focus,
+#superfish-1 li a:hover,
+#superfish-1 li.active-trail > a,
+#superfish-1 li a:active {
+    outline: 0;
+    color: #f8e365;
+    background-color: rgba(96,96,96,1.0);
+}
+
+#superfish-1 li ul {
+    margin: 0.5em 0.8em;
+    min-width: 100%;
+}
+#superfish-1 li li {
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid rgba(96,96,96,0.3);
+}
+#superfish-1 li li li {
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid rgba(96,96,96,0.3);
+}
+
+
+/*
+ *  Vertical menu in footer
+ */
+#superfish-2 {
+    width: 100%;
+    white-space: nowrap;
+}
+#superfish-2 li {
+    clear: both;
+    margin: 0;
+    width: 15em;
+}
+#superfish-2 li.first {
+}
+
+#superfish-2 li a:before {
+    content: '\f054';
+    font-family: "fontawesome";
+    padding: 0 1em;
+}
+#superfish-2 li a > .sf-sub-indicator {
+    display: none;  /* no drop-down arrow */
+}
+
+#superfish-2 li a,
+#superfish-2 li a:link,
+#superfish-2 li a:visited {
+    margin: 0;
+    padding: 0;
+    height: 2.5em;
+    line-height: 2.5;
+    font-size: 1.25em;
+    text-align: left;
+    text-decoration: none;
+    color: #606060;
+    background-color: rgba(248,227,101,1.0);
+}
+#superfish-2 li a:focus,
+#superfish-2 li a:hover,
+#superfish-2 li a:active {
+    outline: 0;
+    color: #f8e365;
+    background-color: rgba(96,96,96,1.0);
+}
+
+#superfish-2 li ul {
+    margin: 0.8em 0.8em;
+}
+#superfish-2 li li {
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid rgba(96,96,96,0.3);
+}
+#superfish-2 li li li {
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid rgba(96,96,96,0.3);
+}
+
+/* =============================================================================
+ *   Breadcrumbs
+ * ========================================================================== */
+/*
+ * Show the breadcrumb only for Referenz-objekte
+ */
+#breadcrumb {
+    display: none;
+}
+body.node-type-referenz-objekt #breadcrumb {
+    display: block;
+}
+
+#breadcrumb ol {
+    padding: 0;
+}
+
+#breadcrumb li {
+    display: block;
+    list-style: none;
+    position: relative;
+    float: left;
+    margin: 0;
+    padding: 0 1.3em;
+    width: auto;
+    height: 32px;
+    color: #f8e365;
+    background-color: rgba(96,96,96,1.0);
+}
+
+#breadcrumb li.active {
+    color: #606060;
+    background-color: rgba(248,227,101,1.0);
+}
+#breadcrumb li:after {
+    /* create triangle */
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: 50%;
+    margin-top: -16px;
+    right: -16px;
+    border-style: solid;
+    border-width: 16px 0 16px 16px;
+    border-color: transparent transparent transparent rgba(96,96,96,1.0);
+}
+#breadcrumb li.visited a {
+    text-decoration: none;
+    color: #f8e365;
+}
+#breadcrumb li.visited a:hover {
+    color: #606060;
+}
+#breadcrumb li a,
+#breadcrumb li a:link,
+#breadcrumb li a:visited {
+    display: block;
+    padding-top: 5px;
+    color: #f8e365;
+}
+#breadcrumb li a:active,
+#breadcrumb li a:focus,
+#breadcrumb li a:hover {
+    color: #606060;
+}
+
+
+/* =============================================================================
+ *   Messages
+ * ========================================================================== */
+div.messages ul {
+    margin: 0;
+}
+
+div.status {}
+
+div.warning {}
+tr.warning {}
+
+div.error,
+tr.error {}
+
+.error {}
+
+.warning {}
+
+
+/* =============================================================================
+ *   Pagers
+ * ========================================================================== */
+
+ul.pager {
+    clear: both;
+    margin: 0;
+    text-align: center;
+}
+
+.item-list ul.pager li {
+    margin: 0;
+}
+
+ul.pager li {
+    background-image: none;
+    display: inline;
+    list-style-type: none;
+    padding: .5em;
+}
+
+ul.pager li.pager-current {
+    font-weight: 700;
+}
+
+.block ul.pager li {
+    margin: 0;
+}
+
+/*
+ * Theme the various states of pager links
+ */
+ul.pager li {}
+
+ul.pager li a {}
+
+ul.pager li a:link,
+ul.pager li a:visited {}
+
+ul.pager li a:active,
+ul.pager li a.active {}
+
+ul.pager li a:hover,
+ul.pager li a:focus {}
+
+ul.pager li.pager-item {}
+ul.pager li.first {}
+ul.pager li.last {}
+ul.pager li.pager-current {}
+ul.pager li.pager-first {}
+ul.pager li.pager-previous {}
+ul.pager li.pager-next {}
+ul.pager li.pager-last {}
+
+
+
+/* =============================================================================
+ *   Links
+ * ========================================================================== */
+a,
+a:link,
+a:visited {
+    text-decoration: none;
+    color: #606060;
+}
+
+a:active,
+a.active {
+    color: #606060;
+}
+
+a:hover,
+a:focus {
+    text-decoration: none;
+    color: #222;
+}
+
+
+/* =============================================================================
+ *   Misc Global Styles
+ * ========================================================================== */
+/*
+ *   Action links
+ */
+
+ul.action-links {
+    margin: 1.25em 0 0;
+    list-style: none;
+}
+
+ul.action-links li {}
+
+/*
+ * Generic styles for the more link
+ */
+.more-link {}
+
+/*
+ * Generic styles for links. See the ul.links declaration in node and comment stylesheets
+ */
+ul.links {
+    margin: 0;
+    padding: 0;
+}
+
+ul.links.inline {
+    display: block;
+}
+
+ul.links li {
+    display: inline;
+    list-style: none;
+    padding: 0 0.625em 0 0;
+}
+
+/*
+ * Feed icons
+ */
+.feed-icon {}
+
+/*
+ * Aggregator feed source
+ */
+#aggregator .feed-source .feed-icon {
+    display: inline;
+    float: none;
+    margin-right: 0.625em;
+}
+
+.feed-details dt,
+.feed-details dd {
+    display: inline;
+    margin: 0;
+}
+
+/*
+ * Search results are an ordered list so reset the margin
+ */
+.search-results {
+    margin: 0;
+}
+
+/*
+ * Buttons used by contrib modules like Media
+ */
+a.button {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+}
+
+/*
+ * Password confirmation
+ */
+.password-parent,
+.confirm-parent {
+    margin: 0;
+}
+
+
+/* =============================================================================
+ *   Forms
+ * ========================================================================== */
+/*
+ * Wrapper for a form element (or group of form elements) and its label
+ */
+.form-item input.error,
+.form-item textarea.error,
+.form-item select.error {
+    border: 1px solid #c00;
+    background-color: rgba(204,0,0,0.3);
+}
+
+.form-item label {
+    color: #606060;
+}
+
+.form-item input,
+.form-item textarea {
+    outline: none;
+    border: 1px solid #606060;
+    -moz-border-radius: 0.25em; /* Firefox */
+    -webkit-border-radius: 0.25em; /* Safari and Chrome */
+    border-radius: 0.25em; /* Opera 10.5+, future browsers, and now also Internet Explorer 6+ using IE-CSS3 */
+}
+
+.form-item input:focus,
+.form-item textarea:focus {
+    box-shadow: 0 0 0.25em #222222;
+    outline: none;
+}
+
+#content form {
+    overflow: hidden;  /* Prevents floating form buttons to be outside of form */
+}
+
+input[type="submit"] {
+    display: block;
+    float: left;
+    padding: 0.375em 0.625em;
+    background-color: #f8e365;
+    color: #606060;
+    border: 1px solid #606060;
+    -moz-border-radius: 0.25em; /* Firefox */
+    -webkit-border-radius: 0.25em; /* Safari and Chrome */
+    border-radius: 0.25em; /* Opera 10.5+, future browsers, and now also Internet Explorer 6+ using IE-CSS3 */
+
+}
+input[type="submit"]:focus,
+input[type="submit"]:hover {
+    background-color: #606060;
+    color: #f8e365;
+    border: 1px solid #f8e365;
+}
+
+/*
+ *  Form fieldsets (collapsible areas in forms)
+ */
+form fieldset {
+    position:relative;
+    margin: 1em 0.125em;
+    padding-top: 3em;
+    background-color: rgba(255,255,240,0.5);
+    border: none;
+}
+form fieldset legend {
+    /* position legend inside fieldset */
+    position:absolute;
+    top:10px;
+    left:10px;
+    color: #222;
+    font-size: 1.2em;
+    font-weight: bolder;
+}​
+ form fieldset span.button-operator {
+     display: none;
+ }
+
+
+/* =============================================================================
+ *   Comment Styling - Comments, comment wrapper, comment form
+ * ========================================================================== */
+/*
+ * Wrapper for the list of comments and its titles
+ */
+#comments {
+    overflow: hidden;
+    margin: 0;
+}
+
+#comments h2 {
+    border-bottom: 1px solid #606060;
+}
+
+#comments h2.comment-form,
+#comments h2.comment-title {
+    margin: 1.25em 0;
+    padding-left: 0.625em;
+    font-weight: normal;
+    color: #606060;
+
+}
+
+/*
+ * Wrapper for a single comment
+ */
+.comment,
+#comments .at-panel {
+    margin: 1.25em 0;
+    padding: 0.625em 0;
+    border-top: 1px solid #606060;
+}
+
+.comment:first-of-type,
+#comments > .at-panel:first-of-type {
+    border-top: none;
+}
+
+.comment.odd {}
+
+.comment.even {
+    background-color: rgba(241,238,231,0.6); /* beige */
+}
+
+/*
+ * Comment title
+ */
+.comment-title {
+    margin: 0;
+}
+
+/*
+ * Preview of the comment before submitting new or updated comment
+ */
+#comments .comment-form,
+#comments .comment-preview {
+    overflow: hidden;  /* Prevents floating buttons to be outside form */
+    padding: 0.625em;
+}
+
+/*
+ * "New" marker for comments that are new for the current user
+ */
+.new {
+    color: #c00;
+}
+
+/*
+ * Nested comments are indented
+ */
+.indented {
+    margin-left: 2.5em;
+}
+
+
+/* =============================================================================
+ *   Tables
+ * ========================================================================== */
+
+table {
+    margin: 0.625em auto;
+    padding: 0;
+    width: 90%;
+    vertical-align: middle;
+    text-align: left;
+    border: 1px solid #ccc;
+}
+table.sticky-header {
+    z-index: 10;
+}
+caption {
+    text-align: left;
+}
+
+td,
+th {
+    border-bottom: 0;
+    border-right: 1px solid #ccc;
+    margin: 0;
+    padding: 0.375em 0.5em;
+    vertical-align: middle;
+    text-align: left;
+}
+
+thead tr {
+    font-weight: 700;
+    background-color: #e5e5e5;
+}
+
+tbody tr {
+    border-top: 1px solid #ccc;
+}
+
+tr.odd {
+    background: #fff;
+}
+tr.odd td.active {
+    background-color: #eee;
+}
+
+tr.info,
+tr.even,
+tr:nth-child(2n+2) {
+    border-bottom: 0;
+    background-color: #f5f5f5;
+}
+tr.even td.active {
+    background-color: #ebebeb;
+}
+
+tr.drag {}
+
+tr.drag-previous {}
+
+
+/* =============================================================================
+ *
+ *
+ *      Site specific element styling starts here...
+ *
+ *
+ * ========================================================================== */
+
+/* ==================================================================================
+ *   Page styling
+ * ================================================================================== */
+/*
+ * Front page grid and general fields
+ */
+#frontpage > .panel-row > .region-two-brick-left-above > .region-inner,
+#frontpage > .panel-row > .region-two-brick-left-below > .region-inner {
+    margin-right: 0.5em;
+}
+#frontpage > .panel-row > .region-two-brick-right-above > .region-inner,
+#frontpage > .panel-row > .region-two-brick-right-below > .region-inner {
+    margin-left: 0.5em;
+}
+#frontpage > .panel-row > .region-two-brick-left-above > .region-inner,
+#frontpage > .panel-row > .region-two-brick-right-above > .region-inner,
+#frontpage > .panel-row > .region-two-brick-left-below > .region-inner,
+#frontpage > .panel-row > .region-two-brick-right-below > .region-inner {
+    margin-top: 2em;
+}
+
+
+/*
+ *  Frontpage teaser lists (news and quotes)
+ */
+#frontpage section.panel-pane .block-title {
+    display: block;
+    padding: 0 1em;
+    font-size: 1.5em;
+    line-height: 1.8;
+    color: #f8e365;
+    background-color: #606060;
+}
+#frontpage section.panel-pane .block-title a {
+    color: #f8e365;
+}
+.view-neuigkeiten .views-row,
+.view-view-kundenstimmen .views-row {
+    margin-bottom: 0.5em;
+    background-color: rgba(241,238,231,1.0); /* beige */
+}
+
+.node-ereignis.node-teaser .at-panel > .region > .region-inner,
+.node-ereignis.node-teaser-full .at-panel > .region > .region-inner,
+.node-kundenstimme.node-teaser .at-panel > .region > .region-inner {
+    padding: 1em;
+}
+
+.node-ereignis.node-teaser .field-name-title h2,
+.node-ereignis.node-teaser-full .field-name-title h2,
+.node-kundenstimme.node-teaser .field-name-field-kundenname {
+    margin: 0;
+    font-size: 1.1em;
+    font-weight: bold;
+    line-height: 1.1;
+    border-bottom: 1px solid #606060;
+}
+.node-ereignis.node-teaser .field-name-field-ort,
+.node-ereignis.node-teaser .field-name-field-datum,
+.node-kundenstimme.node-teaser .field-name-field-kundenbeschreibung {
+    display: inline-block;
+    float: left;
+    padding: 0 1em 1em 0;
+}
+.node-ereignis.node-teaser .field-name-field-ort .field-item:after {
+    content: ", "
+}
+.node-ereignis.node-teaser .field-name-body,
+.node-kundenstimme.node-teaser .field-name-body{
+    clear: both;
+}
+
+
+/*
+ *  Produkt teaser
+ */
+#frontpage .node-produkt.node-teaser {
+    background-color: rgba(241,238,231,1.0); /* beige */
+}
+#frontpage .node-produkt.node-teaser > .at-panel > .region > .region-inner {
+    margin: 0 0.5em 0.5em;
+}
+#frontpage .node-produkt.node-teaser .group-title-image {
+    position: relative;
+    margin: 0 -0.5em;
+}
+#frontpage .node-produkt.node-teaser .field-name-field-slogan {
+    display: block;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 2em;
+    padding: 0 1em;
+    font-size: 1.5em;
+    line-height: 1.8;
+    font-weight: bold;
+    color: #5160a8;
+    background-color: rgba(255,255,255,0.7);
+}
+
+.node-produkt.node-teaser .field-name-body {
+    margin: 1em 0.5em;
+    min-height: 8em;
+}
+.node-produkt.node-teaser .field-name-node-link {
+    margin: 0 1.2em;
+    float: right;
+}
+.node-produkt.node-teaser .field-name-node-link a {
+    color: #5160a8;
+}
+.node-produkt.node-teaser .field-name-node-link a:after {
+    content: '\f054';
+    font-family: "fontawesome";
+    font-size: 1.1em;
+    padding-left: 1em;
+    color: #5160a8;
+}
+.node-produkt.node-teaser .field-type-link-field {
+    display: block;
+    margin-top: 0.5em;
+    padding: 0.375em 0.5em;
+    font-size: 1.1em;
+    font-weight: normal;
+    line-height: 1.2;
+    background-color: #5160a8;
+}
+.node-produkt.node-teaser .field-type-link-field a {
+    color: #fff4f4;
+}
+.node-produkt.node-teaser .field-type-link-field a:after {
+    content: '\f054';
+    font-family: "fontawesome";
+    font-weight: normal;
+    float: right;
+    padding-right: 0.5em;
+    color: #fff4f4;
+}
+
+.region-two-brick-right-above .node-produkt.node-teaser .field-name-field-slogan,
+.region-two-brick-right-above .node-produkt.node-teaser .field-name-node-link a,
+.region-two-brick-right-above .node-produkt.node-teaser .field-name-node-link a:after {
+    color: #c83e3b;
+}
+.region-two-brick-right-above .node-produkt.node-teaser .field-type-link-field {
+    background-color: #c83e3b;
+}
+
+
+/*
+ *  Node Produkt Full
+ */
+body.node-type-produkt .node-produkt.node-full > .at-panel {
+    margin-top: 2em;
+}
+body.node-type-produkt .node-produkt.node-full > .at-panel > .region > .region-inner {
+    margin-bottom: 0.5em;
+}
+
+.node-produkt.node-full > .at-panel > .region-two-50-first > .region-inner,
+.node-produkt.node-full > .at-panel > .region-two-50-second > .region-inner {
+    background-color: rgba(241,238,231,1.0); /* beige */
+}
+
+/* Dynamic and block fields in produkt node */
+.node-produkt.node-full section.field-type-ds {
+    position: relative;
+    margin-top: 0.5em;
+}
+.node-produkt.node-full section.field-type-ds > .field-label {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 48%;
+    margin: 0;
+    padding-left: 2%;
+    font-size: 1.5em;
+    font-weight: bold;
+    line-height: 1.73em;
+    color: #f8e365;
+    z-index: 1;
+    background-color: #606060;
+}
+.node-produkt.node-full .field-name-body {
+    padding: 1em;
+}
+.node-produkt.node-full .field-name-field--referenz-link a {
+    float: right;
+    margin: 0.5em 0 -1em;
+    font-size: 1em;
+    font-weight: normal;
+    line-height: 1.2em;
+    color: #5160a8;
+}
+.node-produkt.node-full .field-name-field--referenz-link a:after {
+    content: '\f054';
+    font-family: "fontawesome";
+    padding-left: 1em;
+}
+article#node-5.node-full .field-name-field--referenz-link a {
+    color: #c83e3b;
+}
+
+
+/*
+ *  Node Produkt-detail Full
+ */
+.node-produkt-detail > .at-panel > .region > .region-inner {
+    padding: 0.5em 1em;
+}
+.node-produkt-detail > .at-panel > .region > .region-inner .field-name-body {
+    padding: 0;
+
+}
+
+/*
+ *  Kontakt teaser in footer
+ */
+.node-kontakt.node-teaser .field-name-title h2 {
+    margin-top: 0;
+}
+.node-kontakt.node-teaser .field-name-title a,
+.node-kontakt.node-teaser .field-name-title a:link,
+.node-kontakt.node-teaser .field-name-title a:visited {
+    font-weight: bold;
+    color: #606060;
+}
+.node-kontakt.node-teaser .field-name-title a:focus,
+.node-kontakt.node-teaser .field-name-title a:hover,
+.node-kontakt.node-teaser .field-name-title a:active {
+    font-weight: bold;
+    color: #222222;
+}
+.node-kontakt.node-teaser .field-name-title a:before {
+    content: '\f054';
+    font-family: "fontawesome";
+    padding-right: 1em;
+}
+
+.node-kontakt.node-teaser .field-label {
+    /* label column in footer contact block */
+    margin: 0;
+    font-size: 1em;
+    font-weight: normal;
+    color: #606060;
+    width: 5em;
+}
+.node-kontakt.node-teaser .field-name-field-adresse,
+.node-kontakt.node-teaser .field-name-field-telefon,
+.node-kontakt.node-teaser .field-name-field-fax,
+.node-kontakt.node-teaser .field-name-field-email {
+    margin-left: 2.6em;
+}
+
+
+/*
+ *  Kontakt full, Ereignis Full, Referenz-Objekt Full
+ */
+.node-kontakt.node-full > .at-panel,
+.node-ereignis.node-full > .at-panel,
+.node-page.node-full > .at-panel,
+.node-referenz-objekt.node-full > .at-panel {
+    margin-top: 2em;
+    padding: 0 1em;
+    background-color: rgba(241,238,231,1.0); /* beige */
+}
+.node-kontakt.node-full > .at-panel > .region > .region-inner,
+.node-ereignis.node-full > .at-panel > .region > .region-inner,
+.node-referenz-objekt.node-full > .at-panel > .region > .region-inner {
+    padding: 0.5em 0;
+}
+.node-kontakt.node-full > .at-panel > .region-two-50-first > .region-inner,
+.node-ereignis.node-full > .at-panel > .region-two-33-66-first > .region-inner,
+.node-referenz-objekt.node-full > .at-panel > .region-two-33-66-first > .region-inner {
+    margin-right: 0.5em;
+}
+.node-kontakt.node-full > .at-panel > .region-two-50-second > .region-inner,
+.node-ereignis.node-full > .at-panel > .region-two-33-66-second > .region-inner,
+.node-referenz-objekt.node-full > .at-panel > .region-two-33-66-second > .region-inner {
+    margin-left: 0.5em;
+}
+
+.node-referenz-objekt.node-full .field-label {
+    margin: 0;
+    font-size: 1em;
+    font-weight: bold;
+    color: #606060;
+    width: 10em;
+}
+.node-referenz-objekt.node-full .field-type-taxonomy-term-reference ul {
+    list-style: none;
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+.node-referenz-objekt.node-full .field-name-body {
+    padding-top: 1em;
+}
+.node-referenz-objekt.node-full .field-name-field-back-link {
+    float: right;
+    margin-top: 1em;
+}
+.node-referenz-objekt.node-full .field-name-field-back-link a:after {
+    content: '\f054';
+    font-family: "fontawesome";
+    padding: 0 1em;
+}
+
+/*
+ *  Referenzobjekt-Liste allgemein
+ *  Make a flexible grid for all reference listings
+ */
+.view-view-list-referenz-anlagen .views-row {
+    display: inline-block;
+    vertical-align: top;
+    width: 10em;
+    margin: 0 0.5em 1em;
+}
+.view-view-list-referenz-anlagen .more-link a {
+    font-size: 1em;
+    color: #5160a8;
+}
+.view-view-list-referenz-anlagen .more-link a:after {
+    content: '\f054';
+    font-family: "fontawesome";
+    padding: 0 1em;
+    color: #5160a8;
+}
+
+/*
+ *  Referenzobjekt-Liste Suche
+ */
+.block-referenz-objekt-suche {
+    margin: 1em 0;
+}
+.block-referenz-objekt-suche .views-exposed-form .views-exposed-widget {
+    float: none;
+    display: inline-block;
+}
+.block-referenz-objekt-suche .views-exposed-form .views-exposed-widget .form-select,
+.block-referenz-objekt-suche .views-exposed-form .views-exposed-widget .form-text {
+    width: 10em;
+}
+.block-referenz-objekt-suche .views-exposed-form .views-exposed-widget .form-submit {
+    display: inline-block;
+    float: none;
+    margin: 0;
+    padding: 0.15em 0.5em;
+}
+.view-list-referenz-anlagen-suche .view-content {
+    padding: 1em;
+    background-color: rgba(241,238,231,1.0); /* beige */
+}
+
+/*
+ *  Referenzobjekt-Liste Sonnenkollektor
+ */
+#referenz-pane-kollektor > .panel-row > .region-two-brick-left-above > .region-inner,
+#referenz-pane-kollektor > .panel-row > .region-two-brick-left-below > .region-inner {
+    margin-right: 0.5em;
+    background-color: rgba(241,238,231,1.0); /* beige */
+}
+#referenz-pane-kollektor > .panel-row > .region-two-brick-right-above > .region-inner,
+#referenz-pane-kollektor > .panel-row > .region-two-brick-right-below > .region-inner {
+    margin-left: 0.5em;
+    background-color: rgba(241,238,231,1.0); /* beige */
+}
+#referenz-pane-kollektor .region-two-brick-left-below div.referenz-subtitle,
+#referenz-pane-kollektor .region-two-brick-right-below div.referenz-subtitle {
+    background-color: #fff;
+}
+
+#referenz-pane-kollektor section.referenz-subtitle .block-inner {
+    padding: 0.5em;
+}
+#referenz-pane-kollektor section.referenz-subtitle .block-title {
+    margin-top: 0.5em;
+    font-size: 1.5em;
+    color: #5160a8;
+}
+#referenz-pane-kollektor section.referenz-subtitle .block-title:before {
+    content: '\f054';
+    font-family: "fontawesome";
+    padding-right: 1em;
+    color: #5160a8;
+}
+#referenz-pane-kollektor section.referenz-subtitle .block-content p {
+    margin: 0;
+}
+
+
+/*
+ *  Referenzobjekt-Liste Wärmepumpe
+ */
+#referenz-pane-waermepumpe > .region-two-50-first > .region-inner {
+    margin-right: 0.5em;
+    background-color: rgba(241,238,231,1.0); /* beige */
+}
+#referenz-pane-waermepumpe > .region-two-50-second > .region-inner {
+    margin-left: 0.5em;
+    background-color: rgba(241,238,231,1.0); /* beige */
+}
+#referenz-pane-waermepumpe .region-two-50-first div.referenz-subtitle,
+#referenz-pane-waermepumpe .region-two-50-second div.referenz-subtitle {
+    background-color: #fff;
+}
+
+
+/*
+ *  Referenzobjekt Teaser
+ */
+.node-referenz-objekt.node-teaser > .at-panel > .region > .region-inner {
+    padding: 0;
+}
+.node-referenz-objekt.node-teaser .field-name-title h2 {
+    margin: 0.3em 0;
+    font-size: 1em;
+    line-height: 1.3;
+    height: 2.5em;
+}
+.node-referenz-objekt.node-teaser .field-name-title a {
+    font-size: 1.1em;
+    font-weight: normal;
+    color: #5160a8;
+}
+#referenz-pane-waermepumpe .node-referenz-objekt.node-teaser .field-name-title a {
+    color: #c83e3b;
+}
+.node-referenz-objekt.node-teaser .field-name-title a:hover,
+#referenz-pane-waermepumpe .node-referenz-objekt.node-teaser a:hover {
+    font-weight: normal;
+    color: #606060;
+}
+.node-referenz-objekt.node-teaser .field-name-field-fakten-komprimiert- {
+    font-size: 0.75em;
+}
+
+
+/*
+ *  Referenzobjekt-block (Favorites block)
+ *  Create flex-grid with inline-blocks and vertical-align instead of float (no parent collapsing issue)
+ */
+.field-name-block-field-referenzen .field-items {
+    background-color: rgba(241,238,231,1.0); /* beige */
+}
+.field-name-block-field-referenzen .field-item .view-view-list-referenz-anlagen .view-content {
+    margin-left: 50%;
+    border-left: 1px solid #fff;
+}
+
+
+/*
+ *  Referenzobjekt Teaser Full (favorites block)
+ */
+.node-referenz-objekt.node-teaser-full > .at-panel > .region > .region-inner {
+    padding: 0;
+}
+.node-referenz-objekt.node-teaser-full .field-name-title h2 {
+    font-size: 1em;
+}
+.node-referenz-objekt.node-teaser-full .field-name-title a,
+.node-referenz-objekt.node-teaser-full .field-name-title a:link,
+.node-referenz-objekt.node-teaser-full .field-name-title a:visited {
+    font-size: 1em;
+    font-weight: normal;
+    color: #5160a8;
+}
+.node-referenz-objekt.node-teaser-full .field-name-title a:focus,
+.node-referenz-objekt.node-teaser-full .field-name-title a:hover,
+.node-referenz-objekt.node-teaser-full .field-name-title a:active {
+    font-weight: normal;
+    color: #606060;
+}
+.node-referenz-objekt.node-teaser-full .field-name-title a:before {
+    content: '\f054';
+    font-family: "fontawesome";
+    padding-right: 0.5em;
+}
+
+article#node-5 .node-referenz-objekt.node-teaser-full .field-name-title a,
+article#node-5 .node-referenz-objekt.node-teaser-full .field-name-title a:link,
+article#node-5 .node-referenz-objekt.node-teaser-full .field-name-title a:visited {
+    font-size: 1em;
+    font-weight: normal;
+    color: #c83e3b;
+}
+
+
+
+/* =============================================================================
+ *   jQuery accordion
+ * ========================================================================== */
+/* accordion headers */
+.ui-accordion {
+    font-size: 1em;
+}
+.ui-accordion .ui-accordion-header .ui-icon {display: none}
+
+.ui-accordion .ui-accordion-header.ui-state-active,
+.ui-accordion .ui-accordion-header.ui-state-hover,
+.ui-accordion .ui-accordion-header.ui-state-default {
+    padding: 0;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    background: rgba(241, 238, 231, 1.0) none;    /* beige */
+}
+
+.ui-accordion .ui-accordion-header.ui-state-active a,
+.ui-accordion .ui-accordion-header.ui-state-default a {
+    display: block;
+    margin-left: 50%;    /* moves title to the right half. */
+    vertical-align: middle;
+    font-size: 1em;
+    line-height: 2.5em;
+    color: #5160a8;
+    border-left: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+}
+.ui-accordion .ui-accordion-header.ui-state-active a,
+.ui-accordion .ui-accordion-header.ui-state-hover a {
+    color: #f8e365;
+    background: #606060 none;
+}
+
+.ui-accordion .ui-accordion-header.ui-state-default a:before {
+    content: '\f054';
+    font-family: "fontawesome";
+    font-weight: normal;
+    padding: 0 0.5em;
+    color: #5160a8;
+}
+.ui-accordion .ui-accordion-header.ui-state-active a:before,
+.ui-accordion .ui-accordion-header.ui-state-hover a:before {
+    content: '\f078';
+    font-family: "fontawesome";
+    font-weight: normal;
+    padding: 0 0.5em;
+    color: #f8e365;
+}
+
+
+/* accordion body */
+.ui-accordion .ui-accordion-content {
+    padding: 1em 0;
+    color: #606060;
+    border: 1px solid #fff;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    background: rgba(241, 238, 231, 1.0) none;
+}
+
+/* Wärmepumpen specific colors for accordion */
+article#node-5 .ui-accordion .ui-accordion-header.ui-state-default a,
+article#node-5 .ui-accordion .ui-accordion-header.ui-state-default a:before {
+    color: #c83e3b;
+}
+article#node-5 .ui-accordion .ui-accordion-header.ui-state-active a,
+article#node-5 .ui-accordion .ui-accordion-header.ui-state-hover a ,
+article#node-5 .ui-accordion .ui-accordion-header.ui-state-active a:before,
+article#node-5 .ui-accordion .ui-accordion-header.ui-state-hover a:before {
+    color: #f8e365;
+}
+
+
+
+/* =============================================================================
+ *  Flexslider slideshow made responsive (view and fields)
+ * ========================================================================== */
+/* Field flexslider */
+.field-item > .flex-nav-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+.field-item > .flex-nav-container > .flexslider {
+    height: auto;
+    padding-bottom: 0;
+}
+.field-item > .flex-nav-container > .flexslider .flex-caption {
+    display: none;
+}
+.field-item > .flex-nav-container > .flex-control-nav {
+    /* field item flexslider */
+    bottom: -22px;
+}
+
+/* Banner flexslider */
+.flex-nav-container {
+    margin: 0;
+    position: relative;
+    width: 100%;
+}
+.flex-nav-container > .flexslider {
+    position: relative;
+    background: none;
+    border: none;
+    border-radius: 0;
+    /* Trick: The image is visible in the padding area and gives the element a height (overflow=hidden cuts outside border) */
+    /*overflow: hidden;*/
+    width: 100% !important;
+    height: auto;
+    /*padding-bottom: 25%;*/
+}
+.flex-nav-container > .flexslider ul.slides li img {
+    margin: 0 auto;
+    padding: 0;
+    width: 100%;
+
+}
+
+/* navigation at the bottom inside the panel */
+.flex-control-nav {
+    position: absolute;
+    bottom: 0;
+    outline: none;
+    text-align: center;
+    width: 100%;
+    z-index: 2;
+}
+.flex-control-nav li a {
+    cursor: pointer;
+    display: block;
+    width: 15px; /* image size */
+    height: 15px;
+    text-indent: -999em;
+    background: url("images/bg_control_nav_ring_klein.png") no-repeat scroll 0 0;
+}
+.flex-control-nav li a:hover {
+    /* get middle image */
+    background-position: 0 -15px;
+    cursor: default;
+}
+.flex-control-nav li a.active {
+    /* get last image */
+    background-position: 0 -30px;
+    cursor: default;
+}
+
+/* direction controls left and right centered */
+.flex-direction-nav li {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 45%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s;
+    -webkit-transition: opacity 0.5s; /* Safari */
+}
+.flex-direction-nav li.last {
+    left: auto;
+    right: 0;
+}
+.flex-direction-nav li:hover {
+    opacity: 1.0;
+}
+
+.flex-direction-nav li a {
+    display: block;
+    position: absolute;
+    top: 50%;
+    width: 2em;
+    height: 2em;
+    margin: -1em 0 0;
+    outline: none;
+    background: none;
+}
+.flex-direction-nav li a.prev {
+    left: 0;
+    text-indent: -0.5em;
+}
+.flex-direction-nav li a.prev:before {
+    content: '\f053';
+    font-family: "fontawesome";
+    font-size: 1.8em;
+    padding: 0.2em 0.5em;
+    color: rgba(248,227,101,1.0);
+    background-color: rgba(96,96,96,0.8);
+}
+
+.flex-direction-nav li a.next {
+    right: 0;
+    text-indent: -0.5em;
+}
+.flex-direction-nav li a.next:before {
+    content: '\f054';
+    font-family: "fontawesome";
+    font-size: 1.8em;
+    padding: 0.2em 0.5em;
+    color: rgba(248,227,101,1.0);
+    right: 0;
+    background-color: rgba(96,96,96,0.9);
+}
+
+/*
+ *  Banner text overflow
+ */
+.node-banner .group-banner .field-name-field-text {
+    position: absolute;
+    bottom: 8%;
+    right: 0;
+    width: 30%;
+    height: auto;
+    padding: 0.5em 1em;
+    font-size: 2vw;
+    background-color: rgba(255,255,255,0.8);
+    z-index: 2;
+}
+
+/* =============================================================================
+ *   Fields (including classes defined in Display Suite)
+ * ========================================================================== */
+
+/*
+ *  Text areas resizing handlers
+ */
+
+.resizable-textarea .grippie {
+    display: none;
+}
+
+.field-label {
+    margin: 0;
+    font-size: 1em;
+    line-height: 1.5;
+    font-weight: bold;
+    color: #606060;
+    width: 7em;
+}
+
+/* Read more link */
+.field-name-node-link {
+    margin: 0 1.2em;
+    float: right;
+}
+.field-name-node-link a:after {
+    content: '\f054';
+    font-family: "fontawesome";
+    font-size: 1.1em;
+    padding-left: 1em;
+}
+
+/* Google map */
+.google_map_field_display {
+    height: 20em;
+    width: 100%;
+    margin: 0;
+}
+
+
+
+/* =============================================================================
+ *
+ *
+ *      Administrator mode specific element styling starts here...
+ *
+ *
+ * ========================================================================== */
+
+/*
+ * Admin menu overrides
+ */
+#admin-menu {
+    margin: 0;
+    padding: 0;
+}
+
+/*
+ * Devel Module
+ */
+.dev-query {
+    background: #eee;
+    padding: 2em;
+}
+
+/*
+ * Styleguide module tweaks
+ */
+#styleguide-header {
+    padding: 0 0.625em;
+}
+
+#styleguide-header .item-list {
+    font-family: inherit;
+    margin: 0 1.25em 1.25em 0;
+    min-height: 260px;
+    width: auto;
+}
+
+#tasks {
+    margin-bottom: 1em;
+}
+
+
+/* =============================================================================
+ *   Tabs (local tasks)
+ * ========================================================================== */
+
+ul.primary {
+    border-bottom-color: #ccc;
+    margin: 1.25em 0;
+    padding: 0 0 0 5px;
+}
+
+ul.primary li {
+    display: block;
+    float: left;
+    margin: 0 1px -1px;
+}
+
+ul.primary li a {
+    background-color: #f5f5f5;
+    border-color: #ccc;
+    margin-right: 1px;
+    padding: 0 0.625em;
+    display: block;
+    float: left;
+    height: 1.5em;
+    line-height: 1.5em;
+}
+
+ul.primary li a:hover,
+ul.primary li a:focus {
+    background-color: #eee;
+    border-color: #ccc;
+}
+
+ul.primary li.active a,
+ul.primary li.active a:hover,
+ul.primary li.active a:focus {
+    background-color: #fff;
+    border-bottom-color: #fff;
+}
+
+ul.secondary {
+    border-bottom: 1px solid #ccc;
+    margin: 1em 0 0;
+    padding: 0 .3em 1em;
+}
+
+ul.secondary li {
+    border-right: 0;
+    list-style: none;
+    padding: 0 0.625em 0 0;
+}
+
+ul.secondary li a {}
+
+ul.secondary li a:hover,
+ul.secondary li a.active {
+    border-bottom: none;
+    text-decoration: underline;
+}
+
+/* =============================================================================
+ *   Unpublished nodes
+ * ========================================================================== */
+
+/*
+ * Unpublished nodes
+ */
+.node-unpublished,
+.comment-unpublished {}
+
+.node-unpublished,
+.comment-unpublished {}
+
+.node-unpublished p.unpublished,
+.comment-unpublished p.unpublished {
+    color: pink;
+    color: rgba(239, 170, 170, 0.4);
+    font-family: Impact,"Arial Narrow",Helvetica,sans-serif;
+    font-size: 4em;
+    font-weight: bold;
+    height: 0;
+    line-height: 1.2;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    text-align: center;
+    text-transform: uppercase;
+    word-wrap: break-word;
+}
+
+
+/* =============================================================================
+ *    Maintenance pages
+ * ========================================================================== */
+
+.maintenance-page {}
+.maintenance-page .container {
+    padding: 2.5em 0;
+}
+
+.maintenance-page #site-name,
+.maintenance-page #page-title {
+    margin: 0;
+}
+
+.db-offline {}
+
+.db-offline .container {
+    margin: 0 auto;
+    padding: 2.5em 0;
+    width: 100%;
+    max-width: 960px;
+}
+
+.db-offline div.messages {
+    margin: 1.25em 0 0;
+}
+
+.db-offline #content {
+    padding: 1.25em 0;
+}
+
+
