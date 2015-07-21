@@ -11,13 +11,13 @@
     btns[Drupal.t('Insert map')] = function () {
       var latlng = google_map_field_map.getCenter();
       var zoom = google_map_field_map.getZoom();
-      $('input[data-lat-delta="'+delta+'"]').attr('value', latlng.lat());
-      $('input[data-lng-delta="'+delta+'"]').attr('value', latlng.lng());
-      $('input[data-zoom-delta="'+delta+'"]').attr('value', zoom);
+      $('input[data-lat-delta="'+delta+'"]').prop('value', latlng.lat()).attr('value', latlng.lat());
+      $('input[data-lng-delta="'+delta+'"]').prop('value', latlng.lng()).attr('value', latlng.lng());
+      $('input[data-zoom-delta="'+delta+'"]').prop('value', zoom).attr('value', zoom);
       $('.google-map-field-preview[data-delta="'+delta+'"]').attr('data-lat', latlng.lat());
       $('.google-map-field-preview[data-delta="'+delta+'"]').attr('data-lng', latlng.lng());
       $('.google-map-field-preview[data-delta="'+delta+'"]').attr('data-zoom', zoom);
-      googleMapFieldPreviews();
+      googleMapFieldPreviews(delta);
       $(this).dialog("close");
     };
 
@@ -30,8 +30,8 @@
     dialogHTML += '  <p>' + Drupal.t('Use the map below to drop a marker at the required location.') + '</p>';
     dialogHTML += '  <div id="gmf_container"></div>';
     dialogHTML += '  <div id="centre_on">';
-    dialogHTML += '    <label>Enter an address/town/postcode etc to centre the map on:<input type="text" name="centre_map_on" id="centre_map_on" value=""/></label>';
-    dialogHTML += '    <button onclick="return doCentre();" type="button" role="button">find</button>';
+    dialogHTML += '    <label>' + Drupal.t('Enter an address/town/postcode etc to centre the map on:') + '<input type="text" name="centre_map_on" id="centre_map_on" value=""/></label>';
+    dialogHTML += '    <button onclick="return doCentre();" type="button" role="button">' + Drupal.t('find') + '</button>';
     dialogHTML += '    <div id="map_error"></div>';
     dialogHTML += '  </div>';
     dialogHTML += '</div>';
@@ -104,45 +104,52 @@
     return false;
   }
 
-  googleMapFieldPreviews = function() {
+  googleMapFieldPreviews = function(delta) {
+
+    delta = typeof delta !== 'undefined' ? delta : -1;
 
     $('.google-map-field-preview').each(function() {
       var data_delta = $(this).attr('data-delta');
-      var data_name  = $('input[data-name-delta="'+data_delta+'"]').val();
-      var data_lat   = $('input[data-lat-delta="'+data_delta+'"]').val();
-      var data_lng   = $('input[data-lng-delta="'+data_delta+'"]').val();
-      var data_zoom  = $('input[data-zoom-delta="'+data_delta+'"]').val();
 
-      data_lat = googleMapFieldValidateLat(data_lat);
-      data_lng = googleMapFieldValidateLng(data_lng);
+      if (data_delta == delta || delta == -1) {
 
-      if (data_zoom == null || data_zoom == '') {
-        var data_zoom = '9';
+        var data_name  = $('input[data-name-delta="'+data_delta+'"]').val();
+        var data_lat   = $('input[data-lat-delta="'+data_delta+'"]').val();
+        var data_lng   = $('input[data-lng-delta="'+data_delta+'"]').val();
+        var data_zoom  = $('input[data-zoom-delta="'+data_delta+'"]').val();
+
+        data_lat = googleMapFieldValidateLat(data_lat);
+        data_lng = googleMapFieldValidateLng(data_lng);
+
+        if (data_zoom == null || data_zoom == '') {
+          var data_zoom = '9';
+        }
+
+        var latlng = new google.maps.LatLng(data_lat, data_lng);
+
+        // Create the map preview.
+        var mapOptions = {
+          zoom: parseInt(data_zoom),
+          center: latlng,
+          streetViewControl: false,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        google_map_field_map = new google.maps.Map(this, mapOptions);
+
+        // drop a marker at the specified lat/lng coords
+        marker = new google.maps.Marker({
+          position: latlng,
+          optimized: false,
+          map: google_map_field_map
+        });
+
+        $('#map_setter_' + data_delta).unbind();
+        $('#map_setter_' + data_delta).bind('click', function(event) {
+          event.preventDefault();
+          googleMapFieldSetter($(this).attr('data-delta'));
+        });
+
       }
-
-      var latlng = new google.maps.LatLng(data_lat, data_lng);
-
-      // Create the map preview.
-      var mapOptions = {
-        zoom: parseInt(data_zoom),
-        center: latlng,
-        streetViewControl: false,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      };
-      google_map_field_map = new google.maps.Map(this, mapOptions);
-
-      // drop a marker at the specified lat/lng coords
-      marker = new google.maps.Marker({
-        position: latlng,
-        optimized: false,
-        map: google_map_field_map
-      });
-
-      $('#map_setter_' + data_delta).unbind();
-      $('#map_setter_' + data_delta).bind('click', function(event) {
-        event.preventDefault();
-        googleMapFieldSetter($(this).attr('data-delta'));
-      });
 
     });  // end .each
 
@@ -150,7 +157,7 @@
 
   googleMapFieldValidateLat = function(lat) {
     lat = parseFloat(lat);
-    if (lat >= -180 && lat <= 180) {
+    if (lat >= -90 && lat <= 90) {
       return lat;
     }
     else {
@@ -160,7 +167,7 @@
 
   googleMapFieldValidateLng = function(lng) {
     lng = parseFloat(lng);
-    if (lng >= -90 && lng <= 90) {
+    if (lng >= -180 && lng <= 180) {
       return lng;
     }
     else {

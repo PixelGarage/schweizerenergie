@@ -32,13 +32,6 @@ function google_map_field_permission() {
 }
 
 /**
- * Implements hook_init().
- */
-function google_map_field_init() {
-  google_map_field_add_maps_api();
-}
-
-/**
  * Implements hook_menu().
  */
 function google_map_field_menu() {
@@ -158,6 +151,7 @@ function google_map_field_field_formatter_view($object_type, $object, $field, $i
 function google_map_field_format_field($item, $delta, $display) {
 
   drupal_add_js(drupal_get_path('module', 'google_map_field') . '/js/google_map_field_node_display.js', 'file');
+  google_map_field_add_maps_api();
 
   $element = array(
     '#type' => 'container',
@@ -188,6 +182,8 @@ function google_map_field_format_field($item, $delta, $display) {
  */
 function google_map_field_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
 
+  google_map_field_add_maps_api();
+
   $element['#title'] = t('Define Location');
   $element['#description'] = '<p>' . t('To set a location for the map, click the "Set Map Marker" button, or enter the latitude/longitude in the field provided.') . '</p>';
 
@@ -209,18 +205,17 @@ function google_map_field_field_widget_form(&$form, &$form_state, $field, $insta
     ),
   );
 
-  if (isset($instance['default_value'][0])) {
-    $name = isset($items[$delta]['name']) ? $items[$delta]['name'] : $instance['default_value'][0]['name'];
-    $lat  = isset($items[$delta]['lat']) ? $items[$delta]['lat'] : $instance['default_value'][0]['lat'];
-    $lng  = isset($items[$delta]['lon']) ? $items[$delta]['lon'] : $instance['default_value'][0]['lon'];
-    $zoom = isset($items[$delta]['zoom']) ? $items[$delta]['zoom'] : $instance['default_value'][0]['zoom'];
-  }
-  else {
-    $name = isset($items[$delta]['name']) ? $items[$delta]['name'] : NULL;
-    $lat  = isset($items[$delta]['lat']) ? $items[$delta]['lat'] : NULL;
-    $lng  = isset($items[$delta]['lon']) ? $items[$delta]['lon'] : NULL;
-    $zoom = isset($items[$delta]['zoom']) ? $items[$delta]['zoom'] : NULL;
-  }
+  $defaults = array(
+    'name'    =>  isset($instance['default_value'][0]['name']) ? $instance['default_value'][0]['name'] : t('Default'),
+    'lat'     =>  isset($instance['default_value'][0]['lat']) ? $instance['default_value'][0]['lat'] : 51.524295,
+    'lon'     =>  isset($instance['default_value'][0]['lon']) ? $instance['default_value'][0]['lon'] : -0.1279899999999543,
+    'zoom'    =>  isset($instance['default_value'][0]['zoom']) ? $instance['default_value'][0]['zoom'] : 9,
+  );
+
+  $name = isset($items[$delta]['name']) ? $items[$delta]['name'] : $defaults['name'];
+  $lat  = isset($items[$delta]['lat']) ? $items[$delta]['lat'] : $defaults['lat'];
+  $lng  = isset($items[$delta]['lon']) ? $items[$delta]['lon'] : $defaults['lon'];
+  $zoom = isset($items[$delta]['zoom']) ? $items[$delta]['zoom'] : $defaults['zoom'];
 
   $element['name'] = array(
     '#type' => 'textfield',
@@ -239,6 +234,9 @@ function google_map_field_field_widget_form(&$form, &$form_state, $field, $insta
     '#default_value' => $lat,
     '#attributes' => array(
       'data-lat-delta' => $delta,
+      'class' => array(
+        'google-map-field-watch-change',
+      ),
     ),
   );
   $element['lon'] = array(
@@ -249,6 +247,9 @@ function google_map_field_field_widget_form(&$form, &$form_state, $field, $insta
     '#default_value' => $lng,
     '#attributes' => array(
       'data-lng-delta' => $delta,
+      'class' => array(
+        'google-map-field-watch-change',
+      ),
     ),
   );
   $element['zoom'] = array(
@@ -257,9 +258,25 @@ function google_map_field_field_widget_form(&$form, &$form_state, $field, $insta
     '#default_value' => $zoom,
     '#attributes' => array(
       'data-zoom-delta' => $delta,
+      'class' => array(
+        'google-map-field-watch-change',
+      ),
+    ),
+  );
+
+  $element['clear_fields'] = array(
+    '#type' => 'button',
+    '#value' => t('Clear Fields'),
+    '#attributes' => array(
+      'data-delta' => $delta,
+      'id' => 'clear_fields_' . $delta,
+      'class' => array(
+        'google-map-field-clear',
+      ),
     ),
     '#suffix' => '</div>',
   );
+
   $element['map_preview_' . $delta] = array(
     '#type' => 'container',
     '#prefix' => '<div class="google-map-field-setter-container">',
@@ -283,7 +300,23 @@ function google_map_field_field_widget_form(&$form, &$form_state, $field, $insta
  * Custom validation function for latitude/longitude fields.
  */
 function google_map_field_latlon_validate($element, $form, &$form_state) {
-  if (!is_numeric($element['#value']) && !empty($element['#value'])) {
+
+  $invalid = FALSE;
+
+  switch ($element['#parents'][count($element['#parents']) - 1]) {
+    case 'lat':
+      if ($element['#value'] < -90 || $element['#value'] > 90) {
+        $invalid = TRUE;
+      }
+      break;
+    case 'lon':
+      if ($element['#value'] < -180 || $element['#value'] > 180) {
+        $invalid = TRUE;
+      }
+      break;
+  }
+
+  if ((!is_numeric($element['#value']) && !empty($element['#value'])) || $invalid) {
     $field = implode('][', $element['#array_parents']);
     form_set_error($field, t('Invalid value - @title', array('@title' => $element['#title'])));
   }
