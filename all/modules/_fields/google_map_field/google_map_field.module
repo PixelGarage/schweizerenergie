@@ -3,8 +3,8 @@
 /**
  * @file
  * This file defines all the necessary hooks and functions to create
- * a Google Map Field field type and also a WYSIWYG editor plugin
- * for inserting maps directly into filtered content.
+ * a Google Map Field field type for inserting maps directly into
+ * content items (node, entities etc).
  */
 
 /**
@@ -37,13 +37,13 @@ function google_map_field_permission() {
 function google_map_field_menu() {
   $items = array();
 
-  $items['admin/config/google-map-field-apikey'] = array(
-    'title' => 'Google Map Field API Key',
-    'description' => 'Set your Google Maps API key.',
+  $items['admin/config/development/google-map-field'] = array(
+    'title' => 'Google Map Field',
+    'description' => 'Google Maps Field config page.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('google_map_field_apikey_settings_form'),
+    'page arguments' => array('google_map_field_settings_form'),
     'file' => 'includes/google_map_field.admin.inc',
-    'access arguments' => array('access google map api key'),
+    'access arguments' => array('access google map config'),
   );
 
   return $items;
@@ -149,7 +149,13 @@ function google_map_field_field_formatter_view($object_type, $object, $field, $i
  * called by google_map_field_field_formatter_view().
  */
 function google_map_field_format_field($item, $delta, $display) {
+  require module_load_include('inc', 'google_map_field');
 
+  $js_settings = array();
+  foreach($settings as $type_name => $data) {
+    $js_settings[$type_name] = variable_get('google_map_field_'.$type_name, $data['default']);
+  }
+  drupal_add_js(array('googleMapField' => $js_settings), 'setting');
   drupal_add_js(drupal_get_path('module', 'google_map_field') . '/js/google_map_field_node_display.js', 'file');
   google_map_field_add_maps_api();
 
@@ -184,6 +190,9 @@ function google_map_field_field_widget_form(&$form, &$form_state, $field, $insta
 
   google_map_field_add_maps_api();
 
+  $field_id = is_a($element['#entity'], 'FieldCollectionItemEntity') ? $element['#entity']->item_id : $field['id'];
+  $field_id = empty($field_id) ? rand(10000000, 99999999) : $field_id;
+
   $element['#title'] = t('Define Location');
   $element['#description'] = '<p>' . t('To set a location for the map, click the "Set Map Marker" button, or enter the latitude/longitude in the field provided.') . '</p>';
 
@@ -212,10 +221,10 @@ function google_map_field_field_widget_form(&$form, &$form_state, $field, $insta
     'zoom'    =>  isset($instance['default_value'][0]['zoom']) ? $instance['default_value'][0]['zoom'] : 9,
   );
 
-  $name = isset($items[$delta]['name']) ? $items[$delta]['name'] : $defaults['name'];
-  $lat  = isset($items[$delta]['lat']) ? $items[$delta]['lat'] : $defaults['lat'];
-  $lng  = isset($items[$delta]['lon']) ? $items[$delta]['lon'] : $defaults['lon'];
-  $zoom = isset($items[$delta]['zoom']) ? $items[$delta]['zoom'] : $defaults['zoom'];
+  $name = isset($items[$delta]['name']) ? $items[$delta]['name'] : '';
+  $lat  = isset($items[$delta]['lat']) ? $items[$delta]['lat'] : '';
+  $lng  = isset($items[$delta]['lon']) ? $items[$delta]['lon'] : '';
+  $zoom = isset($items[$delta]['zoom']) ? $items[$delta]['zoom'] : '';
 
   $element['name'] = array(
     '#type' => 'textfield',
@@ -224,6 +233,7 @@ function google_map_field_field_widget_form(&$form, &$form_state, $field, $insta
     '#prefix' => '<div class="google-map-field-fields-container">',
     '#attributes' => array(
       'data-name-delta' => $delta,
+      'data-name-field-id' => $field_id,
     ),
   );
   $element['lat'] = array(
@@ -234,6 +244,7 @@ function google_map_field_field_widget_form(&$form, &$form_state, $field, $insta
     '#default_value' => $lat,
     '#attributes' => array(
       'data-lat-delta' => $delta,
+      'data-lat-field-id' => $field_id,
       'class' => array(
         'google-map-field-watch-change',
       ),
@@ -247,6 +258,7 @@ function google_map_field_field_widget_form(&$form, &$form_state, $field, $insta
     '#default_value' => $lng,
     '#attributes' => array(
       'data-lng-delta' => $delta,
+      'data-lng-field-id' => $field_id,
       'class' => array(
         'google-map-field-watch-change',
       ),
@@ -258,8 +270,26 @@ function google_map_field_field_widget_form(&$form, &$form_state, $field, $insta
     '#default_value' => $zoom,
     '#attributes' => array(
       'data-zoom-delta' => $delta,
+      'data-zoom-field-id' => $field_id,
       'class' => array(
         'google-map-field-watch-change',
+      ),
+    ),
+  );
+
+  $element['enter_defaults'] = array(
+    '#type' => 'button',
+    '#value' => t('Defaults'),
+    '#attributes' => array(
+      'id' => 'enter_defaults_' . $field_id . '_' . $delta,
+      'data-delta' => $delta,
+      'data-field-id' => $field_id,
+      'data-default-name' => $defaults['name'],
+      'data-default-lat' => $defaults['lat'],
+      'data-default-lon' => $defaults['lon'],
+      'data-default-zoom' => $defaults['zoom'],
+      'class' => array(
+        'google-map-field-defaults',
       ),
     ),
   );
@@ -269,7 +299,8 @@ function google_map_field_field_widget_form(&$form, &$form_state, $field, $insta
     '#value' => t('Clear Fields'),
     '#attributes' => array(
       'data-delta' => $delta,
-      'id' => 'clear_fields_' . $delta,
+      'data-field-id' => $field_id,
+      'id' => 'clear_fields_' . $field_id . '_' . $delta,
       'class' => array(
         'google-map-field-clear',
       ),
@@ -280,14 +311,15 @@ function google_map_field_field_widget_form(&$form, &$form_state, $field, $insta
   $element['map_preview_' . $delta] = array(
     '#type' => 'container',
     '#prefix' => '<div class="google-map-field-setter-container">',
-    '#suffix' => '<div><strong>' . t('Map Preview') . '</strong></div><div class="google-map-field-preview" date-field-name="' . $field['field_name'] . '" data-delta="' . $delta . '"></div>',
+    '#suffix' => '<div><strong>' . t('Map Preview') . '</strong></div><div class="google-map-field-preview" date-field-name="' . $field['field_name'] . '" data-field-id="' . $field_id . '" data-delta="' . $delta . '"></div>',
   );
   $element['open_map'] = array(
     '#type' => 'button',
     '#value' => t('Set Map Marker'),
     '#attributes' => array(
       'data-delta' => $delta,
-      'id' => 'map_setter_' . $delta,
+      'data-field-id' => $field_id,
+      'id' => 'map_setter_' . $field_id . '_' . $delta,
       'data-field-name' => $field['field_name'],
     ),
     '#suffix' => '</div><div style="clear: both;"></div>',
@@ -333,7 +365,7 @@ function google_map_field_theme($existing, $type, $theme, $path) {
           'name' => NULL,
           'lat' => NULL,
           'lng' => NULL,
-          'lzoom' => NULL,
+          'zoom' => NULL,
         ),
         'template' => 'google-map-field',
         'path' => drupal_get_path('module', 'google_map_field') . '/theme',

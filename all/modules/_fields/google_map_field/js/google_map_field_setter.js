@@ -1,22 +1,28 @@
 
+/**
+ * @file
+ * This file contains the javascript functions used by the field widget
+ * to enable admins to set map locations
+ */
+
 (function ($) {
 
   var dialog;
   var google_map_field_map;
 
-  googleMapFieldSetter = function(delta) {
+  googleMapFieldSetter = function(field_id, delta) {
 
     btns = {};
 
     btns[Drupal.t('Insert map')] = function () {
       var latlng = google_map_field_map.getCenter();
       var zoom = google_map_field_map.getZoom();
-      $('input[data-lat-delta="'+delta+'"]').prop('value', latlng.lat()).attr('value', latlng.lat());
-      $('input[data-lng-delta="'+delta+'"]').prop('value', latlng.lng()).attr('value', latlng.lng());
-      $('input[data-zoom-delta="'+delta+'"]').prop('value', zoom).attr('value', zoom);
-      $('.google-map-field-preview[data-delta="'+delta+'"]').attr('data-lat', latlng.lat());
-      $('.google-map-field-preview[data-delta="'+delta+'"]').attr('data-lng', latlng.lng());
-      $('.google-map-field-preview[data-delta="'+delta+'"]').attr('data-zoom', zoom);
+      $('input[data-lat-delta="'+delta+'"][data-lat-field-id="'+field_id+'"]').prop('value', latlng.lat()).attr('value', latlng.lat());
+      $('input[data-lng-delta="'+delta+'"][data-lng-field-id="'+field_id+'"]').prop('value', latlng.lng()).attr('value', latlng.lng());
+      $('input[data-zoom-delta="'+delta+'"][data-zoom-field-id="'+field_id+'"]').prop('value', zoom).attr('value', zoom);
+      $('.google-map-field-preview[data-delta="'+delta+'"][data-field-id="'+field_id+'"]').attr('data-lat', latlng.lat());
+      $('.google-map-field-preview[data-delta="'+delta+'"][data-field-id="'+field_id+'"]').attr('data-lng', latlng.lng());
+      $('.google-map-field-preview[data-delta="'+delta+'"][data-field-id="'+field_id+'"]').attr('data-zoom', zoom);
       googleMapFieldPreviews(delta);
       $(this).dialog("close");
     };
@@ -58,9 +64,9 @@
 
     // Create the map setter map.
     // get the lat/lon from form elements
-    var lat = $('input[data-lat-delta="'+delta+'"]').attr('value');
-    var lng = $('input[data-lng-delta="'+delta+'"]').attr('value');
-    var zoom = $('input[data-zoom-delta="'+delta+'"]').attr('value');
+    var lat = $('input[data-lat-delta="'+delta+'"][data-lat-field-id="'+field_id+'"]').attr('value');
+    var lng = $('input[data-lng-delta="'+delta+'"][data-lng-field-id="'+field_id+'"]').attr('value');
+    var zoom = $('input[data-zoom-delta="'+delta+'"][data-zoom-field-id="'+field_id+'"]').attr('value');
 
     lat = googleMapFieldValidateLat(lat);
     lng = googleMapFieldValidateLng(lng);
@@ -110,13 +116,14 @@
 
     $('.google-map-field-preview').each(function() {
       var data_delta = $(this).attr('data-delta');
+      var data_field_id = $(this).attr('data-field-id');
 
       if (data_delta == delta || delta == -1) {
 
-        var data_name  = $('input[data-name-delta="'+data_delta+'"]').val();
-        var data_lat   = $('input[data-lat-delta="'+data_delta+'"]').val();
-        var data_lng   = $('input[data-lng-delta="'+data_delta+'"]').val();
-        var data_zoom  = $('input[data-zoom-delta="'+data_delta+'"]').val();
+        var data_name  = $('input[data-name-delta="'+data_delta+'"][data-name-field-id="'+data_field_id+'"]').val();
+        var data_lat   = $('input[data-lat-delta="'+data_delta+'"][data-lat-field-id="'+data_field_id+'"]').val();
+        var data_lng   = $('input[data-lng-delta="'+data_delta+'"][data-lng-field-id="'+data_field_id+'"]').val();
+        var data_zoom  = $('input[data-zoom-delta="'+data_delta+'"][data-zoom-field-id="'+data_field_id+'"]').val();
 
         data_lat = googleMapFieldValidateLat(data_lat);
         data_lng = googleMapFieldValidateLng(data_lng);
@@ -143,10 +150,10 @@
           map: google_map_field_map
         });
 
-        $('#map_setter_' + data_delta).unbind();
-        $('#map_setter_' + data_delta).bind('click', function(event) {
+        $('#map_setter_' + data_field_id + '_' + data_delta).unbind();
+        $('#map_setter_' + data_field_id + '_' + data_delta).bind('click', function(event) {
           event.preventDefault();
-          googleMapFieldSetter($(this).attr('data-delta'));
+          googleMapFieldSetter($(this).attr('data-field-id'), $(this).attr('data-delta'));
         });
 
       }
@@ -213,4 +220,3 @@
   }
 
 })(jQuery);
-
